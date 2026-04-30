@@ -1,70 +1,47 @@
 @echo off
-chcp 65001 >nul
-title MuMu Agent 安装程序
+chcp 65001 >nul 2>&1
+title MuMu Agent Installer
 
-echo ╔════════════════════════════════════════╗
-echo ║     MuMu Agent 安装向导 v1.0.0        ║
-echo ╚════════════════════════════════════════╝
+echo ========================================
+echo     MuMu Agent Installer
+echo ========================================
 echo.
 
-:: 检查 Python
+:: Check Python
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo [!] 未找到 Python，请先安装 Python 3.10+
-    echo    下载地址: https://www.python.org/downloads/
+    echo [ERROR] Python not found!
+    echo Please install Python 3.10+ from https://python.org
     pause
     exit /b 1
 )
 
-echo [*] 检测到 Python 已安装
+echo [OK] Python found
+python --version
+
+:: Install
 echo.
-
-:: 检查 pip
-pip --version >nul 2>&1
-if errorlevel 1 (
-    echo [!] pip 未安装，尝试安装...
-    python -m ensurepip --upgrade
-)
-
-echo [*] 正在安装 MuMu Agent...
-echo.
-
-:: 安装核心依赖
-echo [*] 安装核心依赖...
-pip install requests pyyaml duckduckgo-search pillow aiohttp aiosqlite tiktoken
-
-:: 安装完整依赖
-echo.
-echo [*] 安装完整功能（含全部模型支持）...
-pip install -e ".[all]"
+echo Installing MuMu Agent...
+pip install -e .
 
 if errorlevel 1 (
     echo.
-    echo [!] 安装失败，尝试基础安装...
-    pip install -e ".[models]"
+    echo [ERROR] Installation failed!
+    echo Try: pip install -e .
+    pause
+    exit /b 1
 )
 
 echo.
-echo ╔════════════════════════════════════════╗
-echo ║         安装完成！                     ║
-echo ╚════════════════════════════════════════╝
+echo ========================================
+echo     Installation Complete!
+echo ========================================
 echo.
-echo 接下来：
-echo   1. 配置 API 密钥：
-echo      set OPENROUTER_API_KEY=sk-your-key
+echo Commands:
+echo   mumu webui    - Start WebUI
+echo   mumu chat    - Start Chat
+echo   mumu skills  - Manage Skills
 echo.
-echo   2. 启动 WebUI：
-echo      mumu webui
+echo WebUI: http://127.0.0.1:3000
 echo.
-echo   3. 或启动命令行：
-echo      mumu chat
-echo.
-echo [*] 是否立即启动？ (Y/N)
-choice /c YN /n
-if errorlevel 1 (
-    echo.
-    echo [*] 启动 MuMu Agent...
-    mumu webui
-)
-
 pause

@@ -5,106 +5,66 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mumu-agent"
 version = "1.0.0"
-description = "MuMu Agent - 跨平台智能AI助手，支持电脑控制、WebUI、自我进化、记忆系统"
+description = "MuMu Agent - AI Assistant with Computer Control and WebUI"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"
 authors = [
-    {name = "MuMu", email = "mumu@example.com"}
+    {name = "Wang MuMu", email = "wangmumu@example.com"}
 ]
-keywords = ["agent", "ai", "llm", "ollama", "openai", "anthropic", "computer-control", "windows", "macos", "webui"]
+keywords = ["ai", "agent", "assistant", "computer-control", "webui"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: Apple :: macOS",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Desktop Environment",
 ]
 
 dependencies = [
     "requests>=2.31.0",
-    "pyyaml>=6.0.1",
-    "duckduckgo-search>=6.2.0",
+    "pyyaml>=6.0",
+    "duckduckgo-search>=4.0",
     "pillow>=10.0.0",
-    "aiohttp>=3.9.0",
-    "aiosqlite>=0.19.0",
-    "tiktoken>=0.7.0",
-    "aiofiles>=23.0.0",
+    "pyautogui>=0.9.54",
+    "pywin32>=306; platform_system=='Windows'",
+    "psutil>=5.9.0",
+    "openai>=1.12.0",
+    "anthropic>=0.18.0",
+    "python-dotenv>=1.0.0",
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "sse-starlette>=2.0.0",
+    "chromadb>=0.4.22",
+    "httpx>=0.26.0",
 ]
 
 [project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
 all = [
-    # 国际模型
-    "anthropic>=0.18.0",
-    "openai>=1.12.0",
-    # 本地模型
-    "ollama>=0.1.0",
-    # 国内模型
-    "dashscope>=1.14.0",
-    "zhipuai>=2.0.0",
-    # HuggingFace
-    "huggingface-hub>=0.20.0",
-    # Windows 电脑控制
+    "chromadb>=0.4.22",
+    "duckduckgo-search>=4.0",
     "pyautogui>=0.9.54",
-    "pywin32>=306",
-    "mss>=9.0.1",
-    "opencv-python>=4.8.0",
-    # WebUI
-    "websocket-client>=1.7.0",
-]
-models = [
-    "anthropic>=0.18.0",
-    "openai>=1.12.0",
-    "ollama>=0.1.0",
-    "dashscope>=1.14.0",
-    "zhipuai>=2.0.0",
-    "huggingface-hub>=0.20.0",
-]
-control = [
-    "pyautogui>=0.9.54",
-    "pywin32>=306",
-    "mss>=9.0.1",
-    "opencv-python>=4.8.0",
-]
-macos-control = [
-    "pyautogui>=0.9.54",
-    "pyscreeze>=0.1.28",
-]
-webui = [
-    "aiohttp>=3.9.0",
-    "websocket-client>=1.7.0",
-    "flask>=3.0.0",
-]
-anthropic = ["anthropic>=0.18.0"]
-openai = ["openai>=1.12.0"]
-ollama = ["ollama>=0.1.0"]
-chinese = [
-    "dashscope>=1.14.0",
-    "zhipuai>=2.0.0",
+    "pywin32>=306; platform_system=='Windows'",
 ]
 
 [project.scripts]
 mumu = "mumu_agent.cli:main"
-mumu-agent = "mumu_agent.cli:main"
-mumu-gateway = "mumu_agent.gateway:run_gateway"
-mumu-install = "mumu_agent.installer:main"
-mumu-webui = "mumu_agent.webui:run_webui"
+mumu-webui = "mumu_agent.webui:main"
+mumu-gateway = "mumu_agent.gateway:main"
+mumu-chat = "mumu_agent.cli:chat"
+mumu-skills = "mumu_agent.cli:skills"
 
 [project.urls]
 Homepage = "https://github.com/zhuoqiong959/mumu-agent"
-Documentation = "https://github.com/zhuoqiong959/mumu-agent#readme"
 Repository = "https://github.com/zhuoqiong959/mumu-agent"
 Issues = "https://github.com/zhuoqiong959/mumu-agent/issues"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["mumu_agent*"]
-
-[tool.setuptools.package-data]
-mumu_agent = ["*.yaml", "*.txt"]
+[tool.setuptools]
+packages = ["mumu_agent"]
