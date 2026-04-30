@@ -1,0 +1,121 @@
+# MuMu Agent 配置示例
+# 复制此文件为 config.yaml 并填入你的配置
+
+agent:
+  # Agent显示名称
+  name: "MuMu"
+  
+  # 默认模型和提供商
+  model: "anthropic/claude-3.5-sonnet"
+  provider: "openrouter"
+  
+  # 最大对话轮次
+  max_turns: 90
+  
+  # 是否自动创建技能
+  auto_create_skills: true
+  
+  # 代码库根目录
+  codebase_root: "."
+
+memory:
+  # 是否启用记忆系统
+  enabled: true
+  
+  # 存储后端: sqlite, memory
+  backend: "sqlite"
+  
+  # 记忆保留天数
+  retention_days: 365
+
+platforms:
+  # Telegram 配置
+  telegram:
+    enabled: false
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    # DM策略: pairing(推荐), open, closed
+    dm_policy: "pairing"
+    # 允许接收消息的用户ID
+    allowed_users: []
+  
+  # Discord 配置
+  discord:
+    enabled: false
+    bot_token: "${DISCORD_BOT_TOKEN}"
+    dm_policy: "pairing"
+    allowed_guilds: []
+  
+  # Slack 配置
+  slack:
+    enabled: false
+    bot_token: "${SLACK_BOT_TOKEN}"
+    app_token: "${SLACK_APP_TOKEN}"
+
+providers:
+  # OpenRouter (推荐，支持200+模型)
+  openrouter:
+    api_key: "${OPENROUTER_API_KEY}"
+  
+  # Anthropic (Claude)
+  anthropic:
+    api_key: "${ANTHROPIC_API_KEY}"
+  
+  # OpenAI (GPT-4)
+  openai:
+    api_key: "${OPENAI_API_KEY}"
+  
+  # DeepSeek
+  deepseek:
+    api_key: "${DEEPSEEK_API_KEY}"
+    base_url: "https://api.deepseek.com"
+
+security:
+  # 命令审批模式: manual, smart, off
+  approvals:
+    mode: "smart"
+  
+  # 是否启用PII删除
+  redact_pii: true
+  
+  # 是否启用密钥删除
+  redact_secrets: true
+  
+  # 允许执行的命令模式(正则)
+  allowed_commands:
+    - "git.*"
+    - "npm.*"
+    - "pip.*"
+    - "python.*"
+    - "cargo.*"
+  
+  # 禁止执行的命令模式
+  forbidden_commands:
+    - "rm -rf /"
+    - "dd if=.*of=/dev/"
+    - ":(){ :|:& };:"
+
+display:
+  # TUI主题
+  theme: "default"
+  
+  # 是否显示推理过程
+  show_reasoning: true
+  
+  # 是否显示Token消耗
+  show_cost: true
+  
+  # 流式工具输出
+  stream_tools: true
+
+logging:
+  # 日志级别: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+  
+  # 日志文件路径
+  file: "~/.mumu-agent/logs/agent.log"
+  
+  # 最大日志文件大小(MB)
+  max_size: 10
+  
+  # 日志保留份数
+  backup_count: 5
